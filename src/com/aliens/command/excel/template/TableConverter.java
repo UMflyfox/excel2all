@@ -69,6 +69,7 @@ public class TableConverter implements Converter {
         tableTemplate.setHeader(matcher.group(1));
         tableTemplate.setTail(matcher.group(3));
         String tableBody = matcher.group(2);
+        tableTemplate.setBodyPrefix(tableBody);
 
         Matcher bodyMatcher =  FIELD_MATCH_REG.matcher(tableBody);
 
@@ -77,7 +78,6 @@ public class TableConverter implements Converter {
             tableTemplate.setBody(bodyMatcher.group(2));
             tableTemplate.setBodySuffix(bodyMatcher.group(3));
         } else {
-            tableTemplate.setBodyPrefix(tableBody);
             tableTemplate.setBody("");
             tableTemplate.setBodySuffix("");
         }

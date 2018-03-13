@@ -9,9 +9,6 @@ import java.util.List;
 public class TemplateParser {
 
 
-    List<Template>
-
-
     public void Split(String content, String startTag, String endTag) {
         char[] contents = content.toCharArray();
         StringBuilder buff = new StringBuilder();
