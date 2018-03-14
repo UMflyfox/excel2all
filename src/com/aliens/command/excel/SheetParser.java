@@ -83,16 +83,16 @@ public class SheetParser {
                     fieldData.put(fieldName,  getStringValue(cell).trim());
                     break;
                 case BOOL:
-                    fieldData.put(fieldName, cell.getBooleanCellValue());
+                    fieldData.put(fieldName, getBoolValue(cell));
                     break;
                 case INT:
-                    fieldData.put(field.getName(), new Double(cell.getNumericCellValue()).intValue());
+                    fieldData.put(field.getName(), getNumberValue(cell).intValue());
                     break;
                 case FLOAT:
-                    fieldData.put(field.getName(), new Double(cell.getNumericCellValue()).floatValue());
+                    fieldData.put(field.getName(), getNumberValue(cell).floatValue());
                     break;
                 case ENUM:
-                    String enumName = cell.getStringCellValue().trim();
+                    String enumName = getStringValue(cell).trim();
                     Integer enumValue = field.getEnum(enumName);
                     if (enumValue == null) {
                         log.Error("unexpect field " + field.getName() + " enum " + enumName);
@@ -108,7 +108,7 @@ public class SheetParser {
                     }
                     break;
                 case NAME:
-                    name = cell.getStringCellValue().trim();
+                    name = getStringValue(cell).trim();
                     fieldData.put(fieldName, name);
                     break;
                 default:
@@ -123,16 +123,32 @@ public class SheetParser {
 
     }
 
+    private Double getNumberValue(Cell cell) {
+        if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+            return cell.getNumericCellValue();
+        }
+        try {
+            return Double.valueOf(getStringValue(cell));
+        } catch (NumberFormatException e) {
+            return 0d;
+        }
+    }
+
+    private Boolean getBoolValue(Cell cell) {
+        if (cell.getCellType() == Cell.CELL_TYPE_BOOLEAN) {
+            return cell.getBooleanCellValue();
+        }
+        return Boolean.valueOf(getStringValue(cell));
+    }
+
     private String getStringValue(Cell cell) {
         int type = cell.getCellType();
         if (type == Cell.CELL_TYPE_NUMERIC) {
-            String.valueOf(cell.getNumericCellValue());
+            return String.valueOf(Double.valueOf(cell.getNumericCellValue()).intValue());
         } else if (type == Cell.CELL_TYPE_BOOLEAN) {
-            String.valueOf(cell.getBooleanCellValue());
+            return String.valueOf(cell.getBooleanCellValue());
         }
         return cell.getStringCellValue();
-
-
     }
 
     private String[] parseFieldText(String fieldText) {
