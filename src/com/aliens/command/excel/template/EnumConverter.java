@@ -34,11 +34,12 @@ public class EnumConverter implements Converter {
                     continue;
                 }
                 String currTablePrefix = TableConverter.replaceTableContent(data, template.getBodyPrefix());
+                currTablePrefix = currTablePrefix.replace(Constants.PARAM_FIELD_ALIAS, field.getAlias());
                 content.append(currTablePrefix);
 
                 for (Map.Entry<String, TableEnum> enumInfo : field.getEnums().entrySet()) {
                     String currEnumContent = body.replace(Constants.PARAM_ENUM_ALIAS, enumInfo.getKey());
-                    currEnumContent = currEnumContent.replace(Constants.PARAM_ENUM_NAME, enumInfo.getValue().getAlias());
+                    currEnumContent = currEnumContent.replace(Constants.PARAM_ENUM_NAME, enumInfo.getValue().getName());
                     currEnumContent = currEnumContent.replace(Constants.PARAM_ENUM_TYPE, dialect.getType(field.getFieldType()));
                     currEnumContent = currEnumContent.replace(Constants.PARAM_ENUM_VALUE, String.valueOf(field.getEnum(enumInfo.getKey())));
                     content.append(currEnumContent);

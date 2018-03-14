@@ -70,6 +70,9 @@ public class ExcelParser {
     }
 
     private int parse1(final File srcFile, final String fileType) {
+        if (srcFile.getName().startsWith("~$")) {
+            return 0;
+        }
         Workbook workbook = null;
         try {
             switch (fileType) {
