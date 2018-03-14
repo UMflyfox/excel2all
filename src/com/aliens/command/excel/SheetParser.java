@@ -80,7 +80,7 @@ public class SheetParser {
             }
             switch(field.getFieldType()) {
                 case STRING:
-                    fieldData.put(fieldName,  cell.getStringCellValue().trim());
+                    fieldData.put(fieldName,  getStringValue(cell).trim());
                     break;
                 case BOOL:
                     fieldData.put(fieldName, cell.getBooleanCellValue());
@@ -112,7 +112,7 @@ public class SheetParser {
                     fieldData.put(fieldName, name);
                     break;
                 default:
-                    fieldData.put(fieldName,  cell.getStringCellValue().trim());
+                    fieldData.put(fieldName,  getStringValue(cell).trim());
 
             }
         }
@@ -120,6 +120,18 @@ public class SheetParser {
             data.addTableIDMapping(id, name);
         }
         data.addData(fieldData);
+
+    }
+
+    private String getStringValue(Cell cell) {
+        int type = cell.getCellType();
+        if (type == Cell.CELL_TYPE_NUMERIC) {
+            String.valueOf(cell.getNumericCellValue());
+        } else if (type == Cell.CELL_TYPE_BOOLEAN) {
+            String.valueOf(cell.getBooleanCellValue());
+        }
+        return cell.getStringCellValue();
+
 
     }
 
