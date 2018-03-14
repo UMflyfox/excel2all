@@ -2,7 +2,6 @@ package com.aliens.command.excel.template;
 
 import com.aliens.command.excel.ExcelParser;
 import com.aliens.command.excel.model.TableData;
-import com.aliens.command.excel.model.TableField;
 import com.aliens.command.excel.template.constant.Constants;
 import com.aliens.command.excel.template.dialect.Dialect;
 import com.aliens.command.excel.template.dialect.GolandDialect;
@@ -11,8 +10,6 @@ import com.aliens.util.FileUtil;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by hejialin on 2018/3/12.
@@ -21,9 +18,11 @@ public class ConverterManager {
 
     private String templatePath;
 
-    private String templateContent;
+    //private String templateContent;
 
-    private List<Converter> converters = new ArrayList<Converter>();
+    private List<Template> templates;
+
+    private Map<String, Converter> converters;
 
     public ConverterManager(String templatePath) {
         this.templatePath = templatePath;
@@ -31,24 +30,28 @@ public class ConverterManager {
     }
 
     public void init() {
-        this.templateContent = FileUtil.instance.readContent(templatePath);
-        converters.add(new EnumConverter());
-        converters.add(new TableConverter());
+        String content = FileUtil.instance.readContent(templatePath);
+        this.templates = TemplateParser.parse(content, Constants.TAG_TABLE_BEGIN, Constants.TAG_TABLE_END);
+        converters = new HashMap<String, Converter>();
+        converters.put(Constants.TAG_TABLE_BEGIN, new TableConverter());
+        converters.put(Constants.TAG_ENUM_BEGIN, new EnumConverter());
+        converters.put(Constants.TAG_FIELD_BEGIN, new FieldConverter());
     }
 
-    public String convert(Collection<TableData> data, Dialect dialect) {
-        if (templateContent == null || templateContent.isEmpty()) {
+    public String convert(Collection<TableData> tableData, Dialect dialect) {
+        if (this.templates == null || this.templates.isEmpty()) {
             return "";
         }
-        String content = this.templateContent;
-        for (Converter converter : converters) {
-            converter.init(content);
-            String result = converter.convert(data, dialect);
-            if (result != null) {
-                content = result;
+
+        StringBuilder result = new StringBuilder();
+        for (Template template : templates) {
+            Converter converter = converters.get(template.getTag());
+            if (converter != null) {
+                result.append(converter.convert(tableData, dialect, template));
             }
         }
-        return content;
+
+        return result.toString();
     }
 
 

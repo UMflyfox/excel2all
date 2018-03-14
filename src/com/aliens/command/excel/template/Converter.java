@@ -2,6 +2,7 @@ package com.aliens.command.excel.template;
 
 import com.aliens.command.excel.model.TableData;
 import com.aliens.command.excel.template.dialect.Dialect;
+import com.aliens.command.excel.template.model.Template;
 
 import java.util.Collection;
 
@@ -10,7 +11,5 @@ import java.util.Collection;
  */
 public interface Converter {
 
-    String convert(Collection<TableData> tableData, Dialect dialect);
-
-    void init(String templateContent);
+    String convert(Collection<TableData> tableData, Dialect dialect, Template template);
 }

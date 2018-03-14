@@ -1,0 +1,24 @@
+package conf
+
+
+const(
+<table>
+	// [${table_alias}:${field_alias}]	
+	<enum>${enum_name} ${enum_type} = ${enum_value}; //${enum_alias}
+	</enum>
+
+</table>
+)
+
+
+<table>
+// [${table_alias}]	
+type ${table_fixname} struct {
+	<field>
+	${field_fixname} ${field_type} `json:"${field_name}"`   //${field_alias}
+	</field>
+}
+</table>
+
+
+

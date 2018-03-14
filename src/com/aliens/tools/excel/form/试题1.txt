@@ -1,0 +1,124 @@
+nodejs
+
+1. 实现js类继承的方法有哪些
+
+2. apply, call和bind有什么区别
+
+3. express常用函数
+
+4. async都有哪些常用方法，分别是怎么用?
+
+6. node中的异步和同步怎么理解
+
+7. 怎样绑定node程序到80端口?
+
+8. 为什么需要child-process?
+
+9 怎么让js文件可以像linux命令一样执行
+
+10. nodejs崩溃，定位问题的方法
+
+11.javascript中let 和 var的区别
+
+
+服务器
+
+1.请描述进程、线程、协程的概念
+
+2.TCP的三次握手， TIME_WAIT和CLOSE_WAIT状态是什么？
+
+2.从socket读数据时，socket缓存里的数据，可能超过用户缓存的长度，如何处理？ 例如，socket缓存有8kB的数据，而你的缓存只有2kB空间。
+
+3.讲讲对epoll模型的理解
+
+
+java 
+
+1.重载与重写的区别？
+
+2.StringBuilder StringBuffer区别？ 
+
+3.ConcurrentHashMap的实现原理
+
+4.volatile\sychronized关键字的使用场景 
+
+5.hotspot系列虚拟机有哪些常用的GC算法？
+
+6.平常怎么分析内存和CPU使用率
+
+7.actor reactor模型的理解
+
+7.在main函数中打印的内容分别是什么
+class T {
+    static {
+        System.out.println("1");
+    }
+
+    {
+        System.out.println("2");
+    }
+
+    T() {
+        System.out.println("父类构造");
+    }
+
+    public static void got(){
+        System.out.println("调用T类的方法，静态方法");
+    }
+
+    static {
+        System.out.println("3");
+    }
+
+    {
+        System.out.println("4");
+    }
+}
+
+
+public class Test extends T {
+
+    public Test() {
+        System.out.println("子类构造函数");
+    }
+    static {
+        System.out.println("5");
+    }
+    {
+        System.out.println("6");
+    }
+
+    public static void post(){
+        System.out.println("调用Test类的静态方法");
+    }
+
+    static {
+        System.out.println("7");
+    }
+
+    {
+        System.out.println("8");
+    }
+
+    public static void main(String[] args) {
+        Test t = new Test();    
+        Test.got();    
+        Test.post();
+    }
+}
+
+
+
+数据库
+1.什么是数据库事务、如何实现分布式事务
+
+2.数据库索引的优缺点
+
+3.讲讲项目中数据库优化的案例
+
+
+
+
+
+
+

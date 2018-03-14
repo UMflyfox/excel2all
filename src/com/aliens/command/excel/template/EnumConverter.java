@@ -16,13 +16,8 @@ import java.util.regex.Pattern;
  */
 public class EnumConverter implements Converter {
 
-    public static final Pattern ENUM_MATCH_REG = Pattern.compile("([\\s\\S]*)<enum>([\\s\\S]*)</enum>([\\s\\S]*)");
-    public static final Pattern FIELD_MATCH_REG = Pattern.compile("([\\s\\S]*)<field>([\\s\\S]*)</field>([\\s\\S]*)");
-
-    private Template template;
-
     @Override
-    public String convert(Collection<TableData> tableData, Dialect dialect) {
+    public String convert(Collection<TableData> tableData, Dialect dialect, Template template) {
         if (template == null) {
             return null;
         }
@@ -58,33 +53,4 @@ public class EnumConverter implements Converter {
         return content.toString();
     }
 
-    @Override
-    public void init(String templateContent) {
-        this.template = parseTemplate(templateContent);
-    }
-
-    public Template parseTemplate(String content) {
-        Matcher matcher = ENUM_MATCH_REG.matcher(content);
-        if (!matcher.find()) {
-            return null;
-        }
-
-        Template template = new Template();
-        template.setHeader(matcher.group(1));
-        template.setTail(matcher.group(3));
-        String tableBody = matcher.group(2);
-
-        Matcher bodyMatcher =  FIELD_MATCH_REG.matcher(tableBody);
-
-        if (bodyMatcher.find()) {
-            template.setBodyPrefix(bodyMatcher.group(1));
-            template.setBody(bodyMatcher.group(2));
-            template.setBodySuffix(bodyMatcher.group(3));
-        } else {
-            template.setBodyPrefix(tableBody);
-            template.setBody("");
-            template.setBodySuffix("");
-        }
-        return template;
-    }
 }

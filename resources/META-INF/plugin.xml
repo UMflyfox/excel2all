@@ -1,6 +1,6 @@
 <idea-plugin version="2">
   <id>com.aliens.kylin.tools</id>
-  <alias>kylin tools</alias>
+  <name>kylin tools</name>
   <version>1.0</version>
   <vendor email="275109620@163.com" url="http://www.aliensidea.com">aliens idea</vendor>
 
@@ -27,6 +27,12 @@
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
   </extensions>
+
+  <application-components>
+    <component>
+      <implementation-class>com.aliens.tools.excel.setting.ExcelToolSettingComponent</implementation-class>
+    </component>
+  </application-components>
 
   <actions>
     <group id="AliensTools" class="com.aliens.tools.AliensToolsGroup" text="A_liens Tools"  >

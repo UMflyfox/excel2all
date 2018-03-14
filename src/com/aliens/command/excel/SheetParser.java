@@ -201,7 +201,7 @@ public class SheetParser {
         if (fieldInfo.length <= 2) {
             return null;
         }
-        Map<String, String> enumMapping = new HashMap<String, String>();
+        Map<String, String> enumMapping = new LinkedHashMap<String, String>();
         for (int j = 2; j<fieldInfo.length; j++) {
             String enumInfo = fieldInfo[j];
             if (enumInfo == null) {

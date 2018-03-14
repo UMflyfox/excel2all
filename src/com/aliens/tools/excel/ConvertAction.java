@@ -18,7 +18,7 @@ public class ConvertAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        ConverterUI.Open();
+        //ConverterUI.Open();
         //ConverterUI.Open();
     }
 }

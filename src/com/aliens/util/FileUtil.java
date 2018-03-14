@@ -43,13 +43,23 @@ public enum FileUtil {
 
     public void writeContent(String filePath, String content) {
         FileOutputStream fos = null;
+        OutputStreamWriter osw = null;
         try {
             fos = new FileOutputStream(filePath);
-            fos.write(content.getBytes());
+            osw = new OutputStreamWriter(fos, "UTF-8");
+            osw.write(content);
+            osw.flush();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
+            if (osw != null) {
+                try {
+                    osw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             if (fos != null) {
                 try {
                     fos.close();

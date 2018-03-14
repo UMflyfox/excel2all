@@ -5,6 +5,9 @@ package com.aliens.command.excel.template.model;
  */
 public class Template {
 
+    //ENUM FIELD
+    private String tag;
+
     private String header;
 
     private String tail;
@@ -24,11 +27,22 @@ public class Template {
     }
 
     public String getTail() {
+        if (tail == null) {
+            return "";
+        }
         return tail;
     }
 
     public void setTail(String tail) {
         this.tail = tail;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getBodyPrefix() {
@@ -55,4 +69,24 @@ public class Template {
         this.bodySuffix = bodySuffix;
     }
 
+    public void add(String content) {
+        if (this.header == null) {
+            this.header = content;
+        } else if (this.body == null) {
+            this.body = content;
+        } else if (this.tail == null) {
+            this.tail = content;
+        }
+
+    }
+
+
+    @Override
+    public String toString() {
+        return "Template{" +
+                "header='" + header + '\'' +
+                ", tail='" + tail + '\'' +
+                ", body='" + body + '\'' +
+                '}';
+    }
 }

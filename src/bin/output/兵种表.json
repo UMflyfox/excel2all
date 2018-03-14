@@ -1,0 +1,1 @@
+[{"name":"矛兵类","show_name":"矛兵","enum_tid":2,"army_type_base":1000,"display":1},{"name":"弓手类","show_name":"弓箭手","enum_tid":4,"army_type_base":2000,"display":2},{"name":"盾兵类","show_name":"剑士","enum_tid":3,"army_type_base":3000,"display":3},{"name":"骑兵类","show_name":"骑兵","enum_tid":1,"army_type_base":4000,"display":4}]

@@ -1,0 +1,89 @@
+//此文件为工具生成，不允许修改
+window.jsonTables = window.jsonTables || {};
+window.tb = window.tb || {};
+window.jsonTables_zh = window.jsonTables_zh || {};
+window.jsonTables_en = window.jsonTables_en || {};
+
+//表名常量
+
+
+//表字段常量
+
+
+
+//枚举
+
+// [兵种表:枚举编号]	
+tb.TID_ARMY_SPEARMAN = 1; //矛兵
+tb.TID_ARMY_ARCHER = 2; //弓箭手
+tb.TID_ARMY_SWORDSMAN = 3; //剑士
+tb.TID_ARMY_CATAPHRACT = 4; //骑兵
+
+
+// [兵种形态表:代数标记]	
+tb.ENUM1 = 1; //枚举1
+tb.ENUM2 = 2; //枚举2
+tb.ENUM3 = 3; //枚举3
+
+
+
+
+//表格名枚举
+
+jsonTables.TABLE.Army = "army" // [兵种表]
+
+jsonTables.TABLE.ArmyType = "armyType" // [兵种形态表]
+
+
+
+//表格字段枚举
+
+//[兵种表]
+
+jsonTables.ATTR.${table_fixname}_Tid = "tid";   //编号
+
+jsonTables.ATTR.${table_fixname}_Name = "name";   //名称
+
+jsonTables.ATTR.${table_fixname}_ShowName = "show_name";   //显示名称
+
+jsonTables.ATTR.${table_fixname}_EnumTid = "enum_tid";   //枚举编号
+
+jsonTables.ATTR.${table_fixname}_ArmyTypeBase = "army_type_base";   //兵种初始形态
+
+jsonTables.ATTR.${table_fixname}_Display = "display";   //显示排序
+
+
+//[兵种形态表]
+
+jsonTables.ATTR.${table_fixname}_Tid = "tid";   //编号
+
+jsonTables.ATTR.${table_fixname}_Name = "name";   //名称
+
+jsonTables.ATTR.${table_fixname}_English = "english";   //英文
+
+jsonTables.ATTR.${table_fixname}_Icon = "icon";   //图标
+
+jsonTables.ATTR.${table_fixname}_LvStr = "lvStr";   //等级
+
+jsonTables.ATTR.${table_fixname}_Desc = "desc";   //描述
+
+jsonTables.ATTR.${table_fixname}_Army = "army";   //兵种
+
+jsonTables.ATTR.${table_fixname}_GenerationFlag = "generation_flag";   //代数标记
+
+jsonTables.ATTR.${table_fixname}_Reduction = "reduction";   //减伤系数
+
+jsonTables.ATTR.${table_fixname}_Dodge = "dodge";   //闪避率
+
+
+
+
+//表格数据
+
+jsonTables_en[jsonTables.TABLE.Army] = [{"name":"矛兵类","show_name":"矛兵","enum_tid":1,"army_type_base":1000,"display":1},{"name":"弓手类","show_name":"弓箭手","enum_tid":2,"army_type_base":2000,"display":2},{"name":"盾兵类","show_name":"剑士","enum_tid":3,"army_type_base":3000,"display":3},{"name":"骑兵类","show_name":"骑兵","enum_tid":4,"army_type_base":4000,"display":4}]
+
+jsonTables_en[jsonTables.TABLE.ArmyType] = [{"name":"矛兵","english":"SpearmanI","icon":105001,"lvStr":"lv1","desc":"矛墙竖起来，闭着眼乱戳都能杀敌！","army":5001,"generation_flag":1,"reduction":0,"dodge":0},{"name":"长矛兵","english":"SpearmanII","icon":105001,"lvStr":"lv2","desc":"矛墙竖起来，闭着眼乱戳都能杀敌！","army":5001,"generation_flag":2,"reduction":0,"dodge":0},{"name":"枪兵","english":"SpearmanIII","icon":105001,"lvStr":"lv3","desc":"矛墙竖起来，闭着眼乱戳都能杀敌！","army":5001,"generation_flag":1,"reduction":0,"dodge":0},{"name":"精英枪兵","english":"SpearmanIV","icon":105001,"lvStr":"lv3","desc":"矛墙竖起来，闭着眼乱戳都能杀敌！","army":5001,"generation_flag":3,"reduction":0,"dodge":0},{"name":"戟兵","english":"SpearmanV","icon":105001,"lvStr":"lv4","desc":"矛墙竖起来，闭着眼乱戳都能杀敌！","army":5001,"generation_flag":1,"reduction":0,"dodge":0},{"name":"弓手","english":"ArcherI","icon":105002,"lvStr":"lv1","desc":"前推泰山，发如虎尾！着！","army":5002,"generation_flag":2,"reduction":0,"dodge":0},{"name":"长弓手","english":"ArcherII","icon":105002,"lvStr":"lv2","desc":"前推泰山，发如虎尾！着！","army":5002,"generation_flag":3,"reduction":0,"dodge":0},{"name":"神射手","english":"ArcherIII","icon":105002,"lvStr":"lv3","desc":"前推泰山，发如虎尾！着！","army":5002,"generation_flag":0,"reduction":0,"dodge":0},{"name":"精英神射手","english":"ArcherIV","icon":105002,"lvStr":"lv3","desc":"前推泰山，发如虎尾！着！","army":5002,"generation_flag":0,"reduction":0,"dodge":0},{"name":"神臂弩手","english":"ArcherV","icon":105002,"lvStr":"lv4","desc":"前推泰山，发如虎尾！着！","army":5002,"generation_flag":0,"reduction":0,"dodge":0},{"name":"勇士","english":"SwordsmanI","icon":105003,"lvStr":"lv1","desc":"肉盾在此！有本事冲我来啊~","army":5003,"generation_flag":0,"reduction":0.3,"dodge":0},{"name":"长剑士","english":"SwordsmanIII","icon":105003,"lvStr":"lv2","desc":"肉盾在此！有本事冲我来啊~","army":5003,"generation_flag":0,"reduction":0.3,"dodge":0},{"name":"重剑士","english":"SwordsmanIII","icon":105003,"lvStr":"lv3","desc":"肉盾在此！有本事冲我来啊~","army":5003,"generation_flag":0,"reduction":0.3,"dodge":0},{"name":"精英重剑士","english":"SwordsmanIV","icon":105003,"lvStr":"lv3","desc":"肉盾在此！有本事冲我来啊~","army":5003,"generation_flag":0,"reduction":0.3,"dodge":0},{"name":"圣剑士","english":"SwordsmanV","icon":105003,"lvStr":"lv4","desc":"肉盾在此！有本事冲我来啊~","army":5003,"generation_flag":0,"reduction":0.3,"dodge":0},{"name":"骑手","english":"CataphractI","icon":105004,"lvStr":"lv1","desc":"跑马的汉子怕过谁！啊，矛墙除外……","army":5004,"generation_flag":0,"reduction":0,"dodge":0.35},{"name":"骑兵","english":"CataphractII","icon":105004,"lvStr":"lv2","desc":"跑马的汉子怕过谁！啊，矛墙除外……","army":5004,"generation_flag":0,"reduction":0,"dodge":0.35},{"name":"重骑兵","english":"CataphractIII","icon":105004,"lvStr":"lv3","desc":"跑马的汉子怕过谁！啊，矛墙除外……","army":5004,"generation_flag":0,"reduction":0,"dodge":0.35},{"name":"精英重骑兵","english":"CataphractIV","icon":105004,"lvStr":"lv3","desc":"跑马的汉子怕过谁！啊，矛墙除外……","army":5004,"generation_flag":0,"reduction":0,"dodge":0.35},{"name":"圣骑士","english":"CataphractV","icon":105004,"lvStr":"lv4","desc":"跑马的汉子怕过谁！啊，矛墙除外……","army":5004,"generation_flag":0,"reduction":0,"dodge":0.35}]
+
+
+
+test
