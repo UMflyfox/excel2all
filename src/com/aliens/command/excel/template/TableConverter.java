@@ -23,15 +23,20 @@ public class TableConverter implements Converter {
 
         String body = template.getBody();
         for (TableData currData : tableData) {
-            String tablePrefix = body.replace(Constants.PARAM_TABLE_ALIAS, currData.getAlias());
-            tablePrefix = tablePrefix.replace(Constants.PARAM_TABLE_NAME, currData.getName());
-            tablePrefix = tablePrefix.replace(Constants.PARAM_TABLE_FIX_NAME, currData.getFixName());
-            tablePrefix = tablePrefix.replace(Constants.PARAM_TABLE_DATA, currData.getJsonData());
-
+            String tablePrefix = replaceTableContent(currData, body);
             content.append(tablePrefix);
         }
         content.append(template.getTail());
         return content.toString();
     }
 
+
+    public static String replaceTableContent(TableData data, String currTablePrefix) {
+        currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_ALIAS, data.getAlias());
+        currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_NAME, data.getName());
+        currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_FIX_NAME, data.getFixName());
+        currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_UPPER_NAME, data.getUpperName());
+        currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_DATA, data.getJsonData());
+        return currTablePrefix;
+    }
 }

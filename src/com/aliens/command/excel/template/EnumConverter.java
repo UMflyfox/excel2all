@@ -1,6 +1,7 @@
 package com.aliens.command.excel.template;
 
 import com.aliens.command.excel.model.TableData;
+import com.aliens.command.excel.model.TableEnum;
 import com.aliens.command.excel.model.TableField;
 import com.aliens.command.excel.template.constant.Constants;
 import com.aliens.command.excel.template.dialect.Dialect;
@@ -32,16 +33,12 @@ public class EnumConverter implements Converter {
                 if (!field.isEnum()) {
                     continue;
                 }
-
-                String currTablePrefix = template.getBodyPrefix().replace(Constants.PARAM_TABLE_ALIAS, data.getAlias());
-                currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_NAME, data.getName());
-                currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_FIX_NAME, data.getFixName());
-                currTablePrefix = currTablePrefix.replace(Constants.PARAM_FIELD_ALIAS, field.getAlias());
+                String currTablePrefix = TableConverter.replaceTableContent(data, template.getBodyPrefix());
                 content.append(currTablePrefix);
 
-                for (Map.Entry<String, String> enumInfo : field.getEnums().entrySet()) {
+                for (Map.Entry<String, TableEnum> enumInfo : field.getEnums().entrySet()) {
                     String currEnumContent = body.replace(Constants.PARAM_ENUM_ALIAS, enumInfo.getKey());
-                    currEnumContent = currEnumContent.replace(Constants.PARAM_ENUM_NAME, enumInfo.getValue());
+                    currEnumContent = currEnumContent.replace(Constants.PARAM_ENUM_NAME, enumInfo.getValue().getAlias());
                     currEnumContent = currEnumContent.replace(Constants.PARAM_ENUM_TYPE, dialect.getType(field.getFieldType()));
                     currEnumContent = currEnumContent.replace(Constants.PARAM_ENUM_VALUE, String.valueOf(field.getEnum(enumInfo.getKey())));
                     content.append(currEnumContent);

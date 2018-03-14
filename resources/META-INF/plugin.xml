@@ -1,8 +1,8 @@
 <idea-plugin version="2">
-  <id>com.aliens.kylin.tools</id>
+  <id>com.alias.kylin.tools</id>
   <name>kylin tools</name>
   <version>1.0</version>
-  <vendor email="275109620@163.com" url="http://www.aliensidea.com">aliens idea</vendor>
+  <vendor email="275109620@163.com" url="http://www.aliensidea.com">alias idea</vendor>
 
   <description><![CDATA[
       实用工具大全.<br>
@@ -30,16 +30,16 @@
 
   <application-components>
     <component>
-      <implementation-class>com.aliens.tools.excel.setting.ExcelToolSettingComponent</implementation-class>
+      <implementation-class>com.alias.tools.excel.setting.ExcelToolSettingComponent</implementation-class>
     </component>
   </application-components>
 
   <actions>
-    <group id="AliensTools" class="com.aliens.tools.AliensToolsGroup" text="A_liens Tools"  >
+    <group id="AliensTools" class="com.alias.tools.AliensToolsGroup" text="A_liens Tools"  >
       <add-to-group group-id="ToolsMenu" anchor="first"/>
     </group>
 
-    <!--<action id="convert" class="com.aliens.tools.excel.ConvertAction" text="xlsx convert" description="convert .xslx to json!">-->
+    <!--<action id="convert" class="com.alias.tools.excel.ConvertAction" text="xlsx convert" description="convert .xslx to json!">-->
       <!--<add-to-group group-id="AliensTools" anchor="first"/>-->
     <!--</action>-->
   </actions>

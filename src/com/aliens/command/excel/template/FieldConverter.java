@@ -24,12 +24,12 @@ public class FieldConverter implements Converter {
         content.append(template.getHeader());
         String body = template.getBody();
         for (TableData data : tableData) {
-            String currTablePrefix = replaceTableContent(data, template.getBodyPrefix());
+            String currTablePrefix = TableConverter.replaceTableContent(data, template.getBodyPrefix());
             content.append(currTablePrefix);
 
             if (body != null && !body.isEmpty()) {
                 for (TableField field : data.getFieldInfo()) {
-                    String currFieldContent = replaceTableContent(data, body);
+                    String currFieldContent = TableConverter.replaceTableContent(data, body);
                     currFieldContent = currFieldContent.replace(Constants.PARAM_FIELD_ALIAS, field.getAlias());
                     currFieldContent = currFieldContent.replace(Constants.PARAM_FIELD_NAME, field.getName());
                     currFieldContent = currFieldContent.replace(Constants.PARAM_FIELD_FIX_NAME, field.getFixName());
@@ -43,12 +43,6 @@ public class FieldConverter implements Converter {
         return content.toString();
     }
 
-    private String replaceTableContent(TableData data, String currTablePrefix) {
-        currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_ALIAS, data.getAlias());
-        currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_NAME, data.getName());
-        currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_FIX_NAME, data.getFixName());
-        currTablePrefix = currTablePrefix.replace(Constants.PARAM_TABLE_DATA, data.getJsonData());
-        return currTablePrefix;
-    }
+
 
 }

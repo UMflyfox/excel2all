@@ -2,6 +2,7 @@ package com.aliens.command.excel;
 
 import com.aliens.command.excel.model.FieldType;
 import com.aliens.command.excel.model.TableData;
+import com.aliens.command.excel.model.TableEnum;
 import com.aliens.command.excel.model.TableField;
 import com.aliens.command.log.ILogger;
 import com.aliens.command.log.SystemLogger;
@@ -20,14 +21,12 @@ public class SheetParser {
 
     public static final String ENUM_SPLIT_CHAR = ":";
 
+    public static final String FILTER_CHAR = "#";
+
     private ILogger log = new SystemLogger();
 
     public TableData parse(Sheet sheet) {
         TableData data = new TableData(sheet.getSheetName());
-
-        List<TableField> fields = null;
-        Map<String, Object> rowData = null;
-
         int fieldRowNo = sheet.getFirstRowNum();
         int descRowNo = sheet.getFirstRowNum() + 1;
 
@@ -114,6 +113,7 @@ public class SheetParser {
                     break;
                 default:
                     fieldData.put(fieldName,  cell.getStringCellValue().trim());
+
             }
         }
         if (id != null && name != null) {
@@ -181,12 +181,12 @@ public class SheetParser {
                 field.setRef(fieldInfoText.substring(1));
                 data.addRefField(field.getName(), field.getRef());
             } else if (fieldType == FieldType.ENUM) {
-                Map<String, String> enumMapping = readEnum(fieldInfo);
+                Map<String, TableEnum> enumMapping = readEnum(fieldInfo);
                 field.setEnums(enumMapping);
             } else if (fieldType == FieldType.ID) {
-                Map<String, String> enumMapping = readEnum(fieldInfo);
+                Map<String, TableEnum> enumMapping = readEnum(fieldInfo);
                 if (enumMapping != null) {
-                    String tableName = enumMapping.get(TABLE_NAME_KEY);
+                    String tableName = enumMapping.get(TABLE_NAME_KEY).getName();
                     if (tableName != null) {
                         data.setName(tableName);
                     }
@@ -197,21 +197,29 @@ public class SheetParser {
         data.setFieldInfo(fields);
     }
 
-    private Map<String, String> readEnum(String[] fieldInfo) {
+    private Map<String, TableEnum> readEnum(String[] fieldInfo) {
         if (fieldInfo.length <= 2) {
             return null;
         }
-        Map<String, String> enumMapping = new LinkedHashMap<String, String>();
+        Map<String, TableEnum> enumMapping = new LinkedHashMap<String, TableEnum>();
+        int index = 1;
+
         for (int j = 2; j<fieldInfo.length; j++) {
             String enumInfo = fieldInfo[j];
-            if (enumInfo == null) {
-                log.Info("");
-            }
             String[] enums = enumInfo.trim().split(ENUM_SPLIT_CHAR);
             if (enums.length < 2) {
                 continue;
             }
-            enumMapping.put(enums[0].trim(), enums[1].trim());
+            if (enums.length == 3) {
+                try {
+                    index = Integer.parseInt(enums[2].trim());
+                } catch(NumberFormatException e) {
+
+                }
+            }
+            TableEnum tableEnum = new TableEnum(enums[1].trim(), enums[0].trim(), index);
+            enumMapping.put(tableEnum.getAlias(), tableEnum);
+            index ++;
         }
         return enumMapping;
     }

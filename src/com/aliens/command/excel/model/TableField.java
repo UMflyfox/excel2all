@@ -15,6 +15,8 @@ public class TableField {
 
     private String fixName;
 
+    private String upperName;
+
     private String alias;
 
     //the field Type
@@ -24,9 +26,7 @@ public class TableField {
     private String ref;
 
     //the field is enum;
-    private Map<String, String> enums;
-
-    private  Map<String, Integer> enumSeqs;
+    private Map<String, TableEnum> enums;
 
     public TableField(String name, FieldType fieldType) {
         this.name = name;
@@ -45,6 +45,13 @@ public class TableField {
         return this.fixName;
     }
 
+    public String getUpperName() {
+        if (this.upperName == null) {
+            this.upperName = this.name.toUpperCase();
+        }
+        return this.upperName;
+    }
+
     public String getAlias() {
         return alias;
     }
@@ -57,12 +64,8 @@ public class TableField {
         return fieldType;
     }
 
-    public Map<String, String> getEnums() {
+    public Map<String, TableEnum> getEnums() {
         return enums;
-    }
-
-    public Map<String, Integer> getEnumSeqs() {
-        return enumSeqs;
     }
 
     public String getRef() {
@@ -74,22 +77,18 @@ public class TableField {
     }
 
     public Integer getEnum(String enumName) {
-        if (enumSeqs == null) {
+        if (enums == null) {
             return 0;
         }
-        return enumSeqs.get(enumName);
+        TableEnum enumValue = enums.get(enumName);
+        if (enumValue == null) {
+            return 0;
+        }
+        return  enumValue.getValue();
     }
 
-    public void setEnums(Map<String, String> enums) {
+    public void setEnums(Map<String, TableEnum> enums) {
         this.enums = enums;
-        if (this.enums != null) {
-            enumSeqs = new HashMap<String, Integer>(enums.size());
-            int index = 1;
-            for (String enumName : this.enums.keySet()) {
-                enumSeqs.put(enumName, index);
-                index++;
-            }
-        }
     }
 
     public boolean isEnum() {
@@ -118,7 +117,6 @@ public class TableField {
                 ", fieldType=" + fieldType +
                 ", ref='" + ref + '\'' +
                 ", enums=" + enums +
-                ", enumSeqs=" + enumSeqs +
                 '}';
     }
 }

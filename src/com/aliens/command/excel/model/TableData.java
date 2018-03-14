@@ -20,6 +20,8 @@ public class TableData {
 
     private String fixName;
 
+    private String upperName;
+
     //field header
     private List<TableField> fieldInfo = new ArrayList<TableField>();
 
@@ -63,6 +65,13 @@ public class TableData {
             this.fixName = CharacterUtil.instance.transferCamelCasing(this.name);
         }
         return this.fixName;
+    }
+
+    public String getUpperName() {
+        if (this.upperName == null) {
+            this.upperName = this.name.toUpperCase();
+        }
+        return this.upperName;
     }
 
     public void setName(String name) {
