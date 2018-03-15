@@ -7,9 +7,8 @@ import com.aliens.command.excel.model.TableEnum;
 import com.aliens.command.excel.model.TableField;
 import com.aliens.command.log.ILogger;
 import com.aliens.command.log.SystemLogger;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.ss.usermodel.*;
 
 import java.util.*;
 
@@ -28,8 +27,11 @@ public class SheetParser {
 
     private ILogger log = new SystemLogger();
 
-    public TableData parse(Sheet sheet) {
+    private FormulaEvaluator evaluator;
+
+    public TableData parse(Sheet sheet, FormulaEvaluator evaluator) {
         TableData data = new TableData(sheet.getSheetName());
+        this.evaluator = evaluator;
         int fieldRowNo = sheet.getFirstRowNum();
         int descRowNo = sheet.getFirstRowNum() + 1;
 
@@ -78,6 +80,8 @@ public class SheetParser {
         for (int i = 0; i < fieldInfo.size(); i++) {
             field = fieldInfo.get(i);
             Cell cell = dataRow.getCell(i);
+
+
             if (cell == null) {
                 if (field.getFieldType() == FieldType.ID) {
                     return;
@@ -159,6 +163,18 @@ public class SheetParser {
             return String.valueOf(Double.valueOf(cell.getNumericCellValue()).intValue());
         } else if (type == Cell.CELL_TYPE_BOOLEAN) {
             return String.valueOf(cell.getBooleanCellValue());
+        } else if (type == Cell.CELL_TYPE_FORMULA) {
+            CellValue cellValue = evaluator.evaluate(cell);
+            switch (cellValue.getCellType()) {
+                case Cell.CELL_TYPE_BOOLEAN:
+                    return String.valueOf(cellValue.getBooleanValue());
+                case Cell.CELL_TYPE_NUMERIC:
+                    return String.valueOf(cellValue.getNumberValue());
+                case Cell.CELL_TYPE_STRING:
+                    return cellValue.getStringValue();
+                default:
+                    return "";
+            }
         }
         return cell.getStringCellValue();
     }

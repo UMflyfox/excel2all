@@ -117,7 +117,7 @@ public class ExcelParser {
             if (data.containsKey(sheet.getSheetName())) {
                 log.Error("sheet" + sheet.getSheetName() + "already exists");
             } else {
-                tableData = new SheetParser().parse(sheet);
+                tableData = new SheetParser().parse(sheet, workbook.getCreationHelper().createFormulaEvaluator());
                 data.put(sheet.getSheetName(), tableData);
             }
         }
