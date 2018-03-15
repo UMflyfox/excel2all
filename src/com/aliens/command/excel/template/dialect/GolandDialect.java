@@ -33,7 +33,7 @@ public class GolandDialect implements Dialect {
 //    ENUM("enum"),
 //    ID("id"),
 //    NAME("name"),
-//    Array("json"),  //[int]
+//    ARRAY("json"),  //[int]
 //    Object("object"),  // {field:int,abc:string}
 //
 //    //refer other table

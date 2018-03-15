@@ -11,7 +11,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -138,13 +140,33 @@ public class ExcelParser {
 
             for (Map<String, Object> tableFields : data.getDataArray()) {
                 Object refKey = tableFields.get(fieldName);
-                Object refValue = referTableMapping.get(refKey);
-                if (refValue != null) {
-                    tableFields.put(fieldName, refValue);
-                } else {
-                    log.Info("table " + data.getAlias() + " refer value not found :" + refKey);
+                if (refKey == null) {
                     continue;
                 }
+                if (refKey instanceof String[]) {
+                    String[] keys = (String[])refKey;
+                    List<Object> refValues = new ArrayList<Object>();
+                    for (int i=0; i<keys.length; i++) {
+                        Object refValue = referTableMapping.get(keys[i]);
+                        if (refValue != null) {
+                            refValues.add(refValue);
+                        } else {
+                            log.Info("table " + data.getAlias() + " refer value not found :" + keys[i]);
+                            continue;
+                        }
+                    }
+                    tableFields.put(fieldName, refValues.toArray());
+                } else {
+                    Object refValue = referTableMapping.get(refKey);
+                    if (refValue != null) {
+                        tableFields.put(fieldName, refValue);
+                    } else {
+                        log.Info("table " + data.getAlias() + " refer value not found :" + refKey);
+                        continue;
+                    }
+                }
+
+
             }
         }
     }

@@ -14,8 +14,8 @@ public enum FieldType {
     ENUM("enum"),
     ID("id"),
     NAME("name"),
-    Array("json"),  //[int]
-    Object("object"),  // {field:int,abc:string}
+    ARRAY("array"),  //[int]
+    JSON("json"),  // {field:int,abc:string}
 
     //refer other table
     REFER("refer");

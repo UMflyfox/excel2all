@@ -22,6 +22,9 @@ public class TableField {
     //the field Type
     private FieldType fieldType;
 
+    //array sub Type
+    private FieldType subType;
+
     //refer other sheet
     private String ref;
 
@@ -50,6 +53,14 @@ public class TableField {
             this.upperName = this.name.toUpperCase();
         }
         return this.upperName;
+    }
+
+    public FieldType getSubType() {
+        return subType;
+    }
+
+    public void setSubType(FieldType subType) {
+        this.subType = subType;
     }
 
     public String getAlias() {
