@@ -7,7 +7,6 @@ import com.aliens.command.excel.model.TableEnum;
 import com.aliens.command.excel.model.TableField;
 import com.aliens.command.log.ILogger;
 import com.aliens.command.log.SystemLogger;
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.ss.usermodel.*;
 
 import java.util.*;
@@ -32,8 +31,9 @@ public class SheetParser {
     public TableData parse(Sheet sheet, FormulaEvaluator evaluator) {
         TableData data = new TableData(sheet.getSheetName());
         this.evaluator = evaluator;
-        int fieldRowNo = sheet.getFirstRowNum();
-        int descRowNo = sheet.getFirstRowNum() + 1;
+        int fieldNameNo = sheet.getFirstRowNum();
+        int fieldTypeNo = sheet.getFirstRowNum() + 1;
+        int descRowNo = sheet.getFirstRowNum() + 2;
 
         for (int rowIndex = 0; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
             Row row = sheet.getRow(rowIndex);
@@ -41,8 +41,10 @@ public class SheetParser {
                 continue;
             }
 
-            if (rowIndex == fieldRowNo){
-                loadFieldHeaderInfo(data, row);
+            if (rowIndex == fieldNameNo){
+                loadFieldName(data, row);
+            } else if (rowIndex == fieldTypeNo){
+                loadFieldType(data, row);
             } else if (rowIndex == descRowNo) {
                 loadFieldDesc(data, row);
             } else {
@@ -200,24 +202,37 @@ public class SheetParser {
     }
 
     //load field meta info
-    private void loadFieldHeaderInfo(TableData data, Row row) {
+    private void loadFieldName(TableData data, Row row) {
         List<TableField> fields = new ArrayList<TableField>();
         TableField field = null;
-
         for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
-            String parseField = row.getCell(i).getStringCellValue();
+            String fieldName = getStringValue(row.getCell(i)).trim();
+            field = new TableField(fieldName);
+            fields.add(field);
+        }
+
+        data.setFieldInfo(fields);
+    }
+
+    //load field meta info
+    private void loadFieldType(TableData data, Row row) {
+
+        TableField field = null;
+        for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
+            field = data.getFieldInfo().get(i);
+            String parseField = getStringValue(row.getCell(i)).trim();
             if(parseField.isEmpty()) {
                 break;
             }
 
             String[] fieldInfo = parseFieldText(parseField);
-            if (fieldInfo == null || fieldInfo.length < 2) {
+            if (fieldInfo == null || fieldInfo.length == 0) {
                 log.Warning("invalid field format : " + parseField + " at column " + i);
                 break;
             }
 
             //parseTemplate field type
-            String fieldInfoText = fieldInfo[1];
+            String fieldInfoText = fieldInfo[0];
             FieldType fieldType = getType(fieldInfoText);
             FieldType subFieldType = null;
             if (fieldType == null) {
@@ -229,16 +244,13 @@ public class SheetParser {
                 subFieldType = getType(fieldInfoText);
             }
 
-
-            field = new TableField(fieldInfo[0], fieldType);
+            field.setFieldType(fieldType);
             field.setSubType(subFieldType);
-            fields.add(field);
-
             updateData(fieldType, data, field, fieldInfoText, fieldInfo);
             updateData(subFieldType, data, field, fieldInfoText, fieldInfo);
         }
 
-        data.setFieldInfo(fields);
+
     }
 
     private FieldType getType(String fieldInfoText) {
@@ -274,13 +286,13 @@ public class SheetParser {
 
     }
     private Map<String, TableEnum> readEnum(String[] fieldInfo) {
-        if (fieldInfo.length <= 2) {
+        if (fieldInfo.length <= 1) {
             return null;
         }
         Map<String, TableEnum> enumMapping = new LinkedHashMap<String, TableEnum>();
         int index = 1;
 
-        for (int j = 2; j<fieldInfo.length; j++) {
+        for (int j = 1; j<fieldInfo.length; j++) {
             String enumInfo = fieldInfo[j];
             String[] enums = enumInfo.trim().split(ENUM_SPLIT_CHAR);
             if (enums.length < 2) {

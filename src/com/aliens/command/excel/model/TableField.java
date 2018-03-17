@@ -31,9 +31,18 @@ public class TableField {
     //the field is enum;
     private Map<String, TableEnum> enums;
 
+    public TableField(String name) {
+        this.name = name;
+        this.alias = name;
+    }
+
     public TableField(String name, FieldType fieldType) {
         this.name = name;
         this.alias = name;
+        this.fieldType = fieldType;
+    }
+
+    public void setFieldType(FieldType fieldType) {
         this.fieldType = fieldType;
     }
 
