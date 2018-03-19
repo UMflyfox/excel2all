@@ -146,7 +146,7 @@ public class SheetParser {
                 if (subType != null && subType != FieldType.REFER) {
                     List<Object> result = new ArrayList<Object>();
                     for (String info : arrayInfo) {
-                        result.add(getFieldValue(subType, null, info, field));
+                        result.add(getFieldValue(subType, null, info.trim(), field));
                     }
                     return result.toArray();
                 } else {
