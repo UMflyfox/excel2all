@@ -89,10 +89,6 @@ public class SheetParser {
                 break;
             }
             String key = getStringValue(cell).trim();
-
-//            if (field.getFieldType() == null) {
-//                System.out.println(field);
-//            }
             Object value = getFieldValue(field.getFieldType(), field.getSubType(), key, field);
 
             if (field.getFieldType() == FieldType.ID) {
@@ -118,7 +114,7 @@ public class SheetParser {
                 return Boolean.parseBoolean(content);
             case INT:
                 try {
-                    return Integer.parseInt(content);
+                    return (int)Float.parseFloat(content);
                 } catch (NumberFormatException e) {
                     return 0;
                 }
