@@ -108,14 +108,16 @@ public class ExcelParser {
         return 0;
     }
 
-
     private void readWorkBook(Workbook workbook) {
         SheetParser parser = null;
         TableData tableData = null;
         for (int sheetIndex = 0; sheetIndex < workbook.getNumberOfSheets(); sheetIndex++) {
             Sheet sheet = workbook.getSheetAt(sheetIndex);
-            if (data.containsKey(sheet.getSheetName())) {
+            String sheetName = sheet.getSheetName();
+            if (data.containsKey(sheetName)) {
                 log.Error("sheet" + sheet.getSheetName() + "already exists");
+            } else if (sheetName.startsWith(SheetParser.FILTER_CHAR)) {
+                log.Info("sheet" + sheet.getSheetName() + "is skip!");
             } else {
                 tableData = new SheetParser().parse(sheet, workbook.getCreationHelper().createFormulaEvaluator());
                 data.put(sheet.getSheetName(), tableData);

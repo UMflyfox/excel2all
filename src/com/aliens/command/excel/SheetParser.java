@@ -53,7 +53,7 @@ public class SheetParser {
                     continue;
                 }
                 String cellContent = getStringValue(cell);
-                if (!cellContent.equals(FILTER_CHAR)) {
+                if (!cellContent.startsWith(FILTER_CHAR)) {
                     loadFieldData(data, row);
                 }
             }
@@ -82,15 +82,17 @@ public class SheetParser {
         for (int i = 0; i < fieldInfo.size(); i++) {
             field = fieldInfo.get(i);
             Cell cell = dataRow.getCell(i);
-
-
             if (cell == null) {
                 if (field.getFieldType() == FieldType.ID) {
                     return;
                 }
-                continue;
+                break;
             }
             String key = getStringValue(cell).trim();
+
+//            if (field.getFieldType() == null) {
+//                System.out.println(field);
+//            }
             Object value = getFieldValue(field.getFieldType(), field.getSubType(), key, field);
 
             if (field.getFieldType() == FieldType.ID) {
@@ -160,6 +162,9 @@ public class SheetParser {
     }
 
     private String getStringValue(Cell cell) {
+        if (cell == null) {
+            return "";
+        }
         int type = cell.getCellType();
         if (type == Cell.CELL_TYPE_NUMERIC) {
             return String.valueOf(Double.valueOf(cell.getNumericCellValue()).intValue());
@@ -206,21 +211,35 @@ public class SheetParser {
         List<TableField> fields = new ArrayList<TableField>();
         TableField field = null;
         for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
-            String fieldName = getStringValue(row.getCell(i)).trim();
+            Cell cell = row.getCell(i);
+            if (cell == null) {
+                break;
+            }
+            String fieldName = getStringValue(cell).trim();
+            if (fieldName.equals("")) {
+                break;
+            }
             field = new TableField(fieldName);
             fields.add(field);
         }
-
         data.setFieldInfo(fields);
     }
 
     //load field meta info
     private void loadFieldType(TableData data, Row row) {
-
         TableField field = null;
         for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
-            field = data.getFieldInfo().get(i);
-            String parseField = getStringValue(row.getCell(i)).trim();
+            field = data.getField(i);
+            if (field == null) {
+                break;
+            }
+
+            Cell cell = row.getCell(i);
+            if (cell == null) {
+                break;
+            }
+
+            String parseField = getStringValue(cell).trim();
             if(parseField.isEmpty()) {
                 break;
             }

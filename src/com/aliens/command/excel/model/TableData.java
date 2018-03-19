@@ -90,6 +90,14 @@ public class TableData {
         return fieldInfo;
     }
 
+    public TableField getField(int index) {
+        if (fieldInfo == null || fieldInfo.size() <= index) {
+            return null;
+        }
+        return fieldInfo.get(index);
+    }
+
+
     public void setFieldInfo(List<TableField> fieldInfo) {
         this.fieldInfo = fieldInfo;
     }
